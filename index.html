@@ -232,7 +232,7 @@ label{font-size:11px;font-weight:650;text-transform:none;letter-spacing:0;margin
   </section>
 
   <!-- INC -->
-  <section class="page" id="p-INC"><div class="page-intro"><div class="eyebrow">ÉVALUATION / INCENDIE & NRBC</div><h2>Prêt pour la prochaine manœuvre.</h2><p>Identifiez les personnels et choisissez la famille. La manœuvre sera tirée au sort.</p></div>
+  <section class="page" id="p-INC"><div class="page-intro"><div class="eyebrow">ÉVALUATION / INCENDIE & NRBC</div><h2>INC MDR</h2><p>Préparez une évaluation ou consultez le suivi des manœuvres incendie et NRBC.</p></div>
     <div class="subtabs" id="subs-INC"></div>
     <div class="sub" id="s-INC-CGI"><div class="card"><h2>CGI</h2><p class="muted">Sous-onglet à venir.</p></div></div>
     <div class="sub" id="s-INC-CT1"><div class="card"><h2>CT1</h2><p class="muted">Sous-onglet à venir.</p></div></div>
@@ -259,27 +259,7 @@ label{font-size:11px;font-weight:650;text-transform:none;letter-spacing:0;margin
 
 
     </div>
-  </section>
-
-  <section class="page" id="p-PLANCHE"><div class="card"><h2>Planche</h2><p class="muted">Onglet à venir.</p></div></section>
-
-  <section class="page" id="p-SSUAP"></section>
-
-  <section class="page" id="p-TRANS"><div class="card"><h2>Transmissions</h2><p class="muted">Onglet à venir.</p></div></section>
-
-  <section class="page" id="p-ENCADREMENT">
-    <div class="subtabs" id="subs-ENCADREMENT"></div>
-    <div class="sub" id="s-ENCADREMENT-CCS"><div class="card"><h2>CCS · Chef de centre de secours</h2><p class="muted">Sous-onglet à venir.</p></div></div>
-    <div class="sub" id="s-ENCADREMENT-SCCS"><div class="card"><h2>SCCS · Sous-chef de centre</h2><p class="muted">Sous-onglet à venir.</p></div></div>
-    <div class="sub" id="s-ENCADREMENT-CGI"><div class="card"><h2>CGI · Chef de garde incendie</h2><p class="muted">Sous-onglet à venir.</p></div></div>
-    <div class="sub" id="s-ENCADREMENT-CT1"><div class="card"><h2>CT1 · Chef d'agrès engin pompe</h2><p class="muted">Sous-onglet à venir.</p></div></div>
-  </section>
-
-  <section class="page" id="p-REMISE"><div class="card"><h2>Remise</h2><p class="muted">Onglet à venir.</p></div></section>
-  <section class="page" id="p-SYNTHESE"></section>
-  <section class="page" id="p-C1"><div class="card"><h2>C1</h2><p class="muted">Onglet à venir.</p></div></section>
-
-  <section class="page" id="p-SUIVI"><div class="page-intro"><div class="eyebrow">RÉSULTATS & ANALYSE</div><h2>Le suivi des évaluations</h2><p>Retrouvez les personnels évalués, leurs résultats et les axes de progression.</p></div>      <div class="card">
+  <div class="sub" id="s-INC-SUIVI">  <div id="p-SUIVI">      <div class="card">
         <div class="card-h"><span>Évaluations enregistrées</span>
           <span class="row" style="flex:none">
             <button class="btn green sm" id="btnXls">📊 Excel</button>
@@ -320,7 +300,28 @@ label{font-size:11px;font-weight:650;text-transform:none;letter-spacing:0;margin
           <div class="col-ok"><h4>3 POINTS FORTS COLLECTIFS</h4><ul id="gForts"></ul></div>
           <div class="col-ko"><h4>3 POINTS FAIBLES COLLECTIFS</h4><ul id="gFaibles"></ul></div>
         </div></details>
-      </div></section>
+      </div></div></div>
+</section>
+
+  <section class="page" id="p-PLANCHE"><div class="card"><h2>Planche</h2><p class="muted">Onglet à venir.</p></div></section>
+
+  <section class="page" id="p-SSUAP"></section>
+
+  <section class="page" id="p-TRANS"><div class="card"><h2>Transmissions</h2><p class="muted">Onglet à venir.</p></div></section>
+
+  <section class="page" id="p-ENCADREMENT">
+    <div class="subtabs" id="subs-ENCADREMENT"></div>
+    <div class="sub" id="s-ENCADREMENT-CCS"><div class="card"><h2>CCS · Chef de centre de secours</h2><p class="muted">Sous-onglet à venir.</p></div></div>
+    <div class="sub" id="s-ENCADREMENT-SCCS"><div class="card"><h2>SCCS · Sous-chef de centre</h2><p class="muted">Sous-onglet à venir.</p></div></div>
+    <div class="sub" id="s-ENCADREMENT-CGI"><div class="card"><h2>CGI · Chef de garde incendie</h2><p class="muted">Sous-onglet à venir.</p></div></div>
+    <div class="sub" id="s-ENCADREMENT-CT1"><div class="card"><h2>CT1 · Chef d'agrès engin pompe</h2><p class="muted">Sous-onglet à venir.</p></div></div>
+  </section>
+
+  <section class="page" id="p-REMISE"><div class="card"><h2>Remise</h2><p class="muted">Onglet à venir.</p></div></section>
+  <section class="page" id="p-SYNTHESE"></section>
+  <section class="page" id="p-C1"><div class="card"><h2>C1</h2><p class="muted">Onglet à venir.</p></div></section>
+
+
   <!-- ÉVALUATION -->
   <section class="page" id="p-EVAL">
     <button class="btn grey noprint" id="btnBack" style="margin-bottom:12px">← Retour à la préparation</button>
@@ -373,7 +374,7 @@ const LIBS = {
 const KEY = { form: "epo_form", meta: "epo_meta", page: "epo_page", sub: "epo_sub_", noCache: "epo_sans_cache" };
 
 const TABS = ["ACCUEIL", "SUIVI", "PLANCHE", "INC", "SSUAP", "TRANS", "ENCADREMENT", "REMISE", "SYNTHESE", "C1"];
-const SUBTABS = { INC: ["CGI", "CT1", "MDR"], ENCADREMENT: ["CCS", "SCCS", "CGI", "CT1"] };
+const SUBTABS = { INC: ["MDR", "SUIVI"], ENCADREMENT: ["CCS", "SCCS", "CGI", "CT1"] };
 const SUB_DEFAULT = { INC: "MDR", SSUAP: "CA", ENCADREMENT: "CCS" };
 
 /* Coefficients de la manœuvre (somme = 12) */
@@ -2398,13 +2399,13 @@ function patch(id, changes, okMsg) {
    8. NAVIGATION
    ============================================================ */
 function buildNav() {
-  const labels = {ACCUEIL:"Accueil",INC:"Évaluer · INC MDR",SUIVI:"Suivi · INC MDR",PLANCHE:"Planche",SSUAP:"SSUAP",TRANS:"Transmissions",ENCADREMENT:"Encadrement",REMISE:"Remise",SYNTHESE:"Synthèse globale",C1:"C1"};
+  const labels = {ACCUEIL:"Accueil",INC:"INC MDR",SUIVI:"Suivi · INC MDR",PLANCHE:"Planche",SSUAP:"SSUAP",TRANS:"Transmissions",ENCADREMENT:"Encadrement",REMISE:"Remise",SYNTHESE:"Synthèse globale",C1:"C1"};
   const icons = {ACCUEIL:"⌂",INC:"＋",SUIVI:"▤",SSUAP:"✚",SYNTHESE:"◫"};
-  $("tabs").innerHTML = '<span class="nav-heading">ESPACE DE TRAVAIL</span>' + ["ACCUEIL","INC","SUIVI","SSUAP","SYNTHESE"].map(t => `<button class="tab" role="tab" data-tab="${t}"><span class="nav-icon" aria-hidden="true">${icons[t]}</span>${labels[t]}</button>`).join("") + '<details class="future-nav"><summary>Autres modules <span>À venir</span></summary>' + TABS.filter(t=>!["ACCUEIL","INC","SUIVI","SSUAP","SYNTHESE"].includes(t)).map(t=>`<button class="tab" role="tab" data-tab="${t}">${labels[t]}</button>`).join("") + '</details><div class="nav-foot">BOI · 2e GIS<br><span>Évaluation des manœuvres individuelles</span></div>';
+  $("tabs").innerHTML = '<span class="nav-heading">ESPACE DE TRAVAIL</span>' + ["ACCUEIL","INC","SSUAP","SYNTHESE"].map(t => `<button class="tab" role="tab" data-tab="${t}"><span class="nav-icon" aria-hidden="true">${icons[t]}</span>${labels[t]}</button>`).join("") + '<details class="future-nav"><summary>Autres modules <span>À venir</span></summary>' + TABS.filter(t=>!["ACCUEIL","INC","SUIVI","SSUAP","SYNTHESE"].includes(t)).map(t=>`<button class="tab" role="tab" data-tab="${t}">${labels[t]}</button>`).join("") + '</details><div class="nav-foot">BOI · 2e GIS<br><span>Évaluation des manœuvres individuelles</span></div>';
   $("tabs").addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) showTab(b.dataset.tab); });
   Object.keys(SUBTABS).forEach(p => {
     const box = $("subs-" + p);
-    box.innerHTML = SUBTABS[p].map(s => `<button class="subtab" data-sub="${s}">${s === "MDR" ? "MDR · Évaluation" : s + " · À venir"}</button>`).join("");
+    box.innerHTML = SUBTABS[p].map(s => `<button class="subtab" data-sub="${s}">${p === "INC" ? (s === "MDR" ? "Évaluation" : "Suivi") : s + " · À venir"}</button>`).join("");
     box.addEventListener("click", e => { const b = e.target.closest(".subtab"); if (b) showSub(p, b.dataset.sub); });
   });
   const h = document.querySelector("header");
@@ -2419,6 +2420,7 @@ function showPage(id) {
   window.dispatchEvent(new Event("epo:page"));
 }
 function showTab(t) {
+  const legacyFollow = t === "SUIVI"; if (legacyFollow) t = "INC";
   // Quitter la grille pendant une modification = l'annuler (avec confirmation) ; une nouvelle évaluation reste en cours
   if (F.editingId != null && $("p-EVAL").classList.contains("on")) {
     if (!confirm("Quitter la modification en cours ?\n\nLes changements non enregistrés seront perdus. L'évaluation d'origine reste inchangée.")) {
@@ -2428,7 +2430,7 @@ function showTab(t) {
   }
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
   showPage(t); setBar(false); lsSet(KEY.page, t);
-  if (SUBTABS[t]) showSub(t, lsGet(KEY.sub + t) || SUB_DEFAULT[t]);
+  if (SUBTABS[t]) showSub(t, legacyFollow ? "SUIVI" : (lsGet(KEY.sub + t) || SUB_DEFAULT[t]));
   refreshResume();
 }
 function showSub(p, s) {
@@ -3011,7 +3013,7 @@ function renderTable() {
             <div><span>Ancienneté générale</span><div class="sen-inputs">${numIn("years", it.yY, 40, "Ancienneté (ans)")} ans ${numIn("months", it.yM, 11, "Ancienneté (mois)")} mois</div></div>
             ${it.role === "CE" ? `<div><span>Ancienneté CE</span><div class="sen-inputs">${numIn("anc", it.aY, 40, "Ancienneté CE (ans)")} ans ${numIn("ancMonths", it.aM, 11, "Ancienneté CE (mois)")} mois</div></div>` : ""}
           </div></details>
-          <div class="result-actions"><button class="btn sm" data-do="edit">Modifier l’évaluation</button><button class="btn danger sm" data-do="del">Supprimer l’évaluation</button></div>
+          <div class="result-actions"><button class="btn ghost sm" data-person-history="${esc(it.name)}">Toutes les notes de cet évalué</button><button class="btn sm" data-do="edit">Modifier l’évaluation</button><button class="btn danger sm" data-do="del">Supprimer l’évaluation</button></div>
         </div></details>
       </article></td></tr>`;
   }).join("");

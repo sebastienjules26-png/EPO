@@ -2,7 +2,7 @@
   "name": "epo-2gis",
   "private": true,
   "scripts": {
-    "test": "node tests/ssuap-dom.test.cjs && node tests/ssuap-sync.test.cjs"
+    "test": "node tests/ssuap-dom.test.cjs && node tests/ssuap-sync.test.cjs && node tests/synthesis.test.cjs"
   },
   "devDependencies": {
     "jsdom": "^31.0.1"
