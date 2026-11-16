@@ -1,6 +1,6 @@
-const VERSION='epo-tablettes-v1';
+const VERSION='epo-tablettes-v2-ssuap';
 const CACHE=VERSION+'-'+self.registration.scope;
-const SHELL=['./','./index.html','./manifest.webmanifest','./install.js','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
+const SHELL=['./','./index.html','./manifest.webmanifest','./install.js','./ssuap.js','./ssuap.css','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 const LIBS=[
  'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js',
  'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js',
@@ -31,3 +31,4 @@ self.addEventListener('fetch',event=>{
   const response=await fetch(req);if(response.ok)await cache.put(req,response.clone());return response;
  })());
 });
+

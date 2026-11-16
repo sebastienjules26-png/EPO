@@ -1,0 +1,10 @@
+{
+  "name": "epo-2gis",
+  "private": true,
+  "scripts": {
+    "test": "node tests/ssuap-dom.test.cjs && node tests/ssuap-sync.test.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "^31.0.1"
+  }
+}

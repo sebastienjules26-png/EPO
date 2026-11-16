@@ -203,7 +203,8 @@ label{font-size:11px;font-weight:650;text-transform:none;letter-spacing:0;margin
 @media(max-width:1200px){.result-line{grid-template-columns:minmax(130px,1fr) minmax(90px,.7fr) 72px 104px;gap:10px}.result-man{grid-row:2;grid-column:1/3}.result-score{grid-column:3;grid-row:1/3}.result-bilan{grid-column:4;grid-row:1/3}.result-line{padding:12px 14px 2px}.result-details>summary{padding-left:14px;min-height:44px;display:flex;align-items:center;gap:7px}.result-details>summary:before{content:'＋'}.result-details[open]>summary:before{content:'−'}.result-bilan,.result-actions .btn{min-height:44px}}
 @media(max-width:600px){#p-SUIVI>.card{padding:12px}.result-line{grid-template-columns:minmax(0,1fr) 76px;gap:7px;padding:12px 12px 0}.result-person{grid-column:1;grid-row:1}.result-role{grid-column:1;grid-row:2}.result-man{grid-column:1/-1;grid-row:3;font-size:11px}.result-score{grid-column:2;grid-row:1/3;text-align:right}.result-score>span{margin-left:auto}.result-bilan{grid-column:1/-1;grid-row:4;justify-self:start;min-height:44px;margin-top:3px}.result-details>summary{padding:0 12px 8px;min-height:44px}.result-detail-body{padding:12px}.result-points,.correction-grid{grid-template-columns:1fr;gap:14px}.result-actions{flex-direction:column;align-items:stretch}.result-person b{font-size:12px}.result-score b{font-size:23px}#p-SUIVI .tools{gap:6px}#p-SUIVI .page-intro{margin-bottom:16px}#p-SUIVI .page-intro h2{font-size:23px}.result-list table.t{border-spacing:0 6px}}
 @media print{.result-details>summary,.quick-corrections,.result-actions,.result-bilan{display:none!important}.result-details::details-content,.collective-details::details-content{content-visibility:visible}.result-line{grid-template-columns:2fr 1fr 2fr 1fr}.result-item{break-inside:avoid}}
-</style></head>
+</style><link rel="stylesheet" href="./ssuap.css">
+</head>
 <body>
 <div id="toasts" aria-live="polite"></div>
 
@@ -262,11 +263,7 @@ label{font-size:11px;font-weight:650;text-transform:none;letter-spacing:0;margin
 
   <section class="page" id="p-PLANCHE"><div class="card"><h2>Planche</h2><p class="muted">Onglet à venir.</p></div></section>
 
-  <section class="page" id="p-SSUAP">
-    <div class="subtabs" id="subs-SSUAP"></div>
-    <div class="sub" id="s-SSUAP-CA"><div class="card"><h2>CA · Chef d'agrès SSUAP</h2><p class="muted">Sous-onglet à venir.</p></div></div>
-    <div class="sub" id="s-SSUAP-ÉQUIPIER"><div class="card"><h2>Équipier</h2><p class="muted">Sous-onglet à venir.</p></div></div>
-  </section>
+  <section class="page" id="p-SSUAP"></section>
 
   <section class="page" id="p-TRANS"><div class="card"><h2>Transmissions</h2><p class="muted">Onglet à venir.</p></div></section>
 
@@ -279,7 +276,7 @@ label{font-size:11px;font-weight:650;text-transform:none;letter-spacing:0;margin
   </section>
 
   <section class="page" id="p-REMISE"><div class="card"><h2>Remise</h2><p class="muted">Onglet à venir.</p></div></section>
-  <section class="page" id="p-SYNTHESE"><div class="card"><h2>Synthèse globale</h2><p class="muted">Onglet à venir.</p></div></section>
+  <section class="page" id="p-SYNTHESE"></section>
   <section class="page" id="p-C1"><div class="card"><h2>C1</h2><p class="muted">Onglet à venir.</p></div></section>
 
   <section class="page" id="p-SUIVI"><div class="page-intro"><div class="eyebrow">RÉSULTATS & ANALYSE</div><h2>Le suivi des évaluations</h2><p>Retrouvez les personnels évalués, leurs résultats et les axes de progression.</p></div>      <div class="card">
@@ -376,7 +373,7 @@ const LIBS = {
 const KEY = { form: "epo_form", meta: "epo_meta", page: "epo_page", sub: "epo_sub_", noCache: "epo_sans_cache" };
 
 const TABS = ["ACCUEIL", "SUIVI", "PLANCHE", "INC", "SSUAP", "TRANS", "ENCADREMENT", "REMISE", "SYNTHESE", "C1"];
-const SUBTABS = { INC: ["CGI", "CT1", "MDR"], SSUAP: ["CA", "ÉQUIPIER"], ENCADREMENT: ["CCS", "SCCS", "CGI", "CT1"] };
+const SUBTABS = { INC: ["CGI", "CT1", "MDR"], ENCADREMENT: ["CCS", "SCCS", "CGI", "CT1"] };
 const SUB_DEFAULT = { INC: "MDR", SSUAP: "CA", ENCADREMENT: "CCS" };
 
 /* Coefficients de la manœuvre (somme = 12) */
@@ -1801,9 +1798,9 @@ const up = v => String(v == null ? "" : v).toUpperCase();
 const num = v => { const n = parseFloat(String(v).replace(",", ".")); return isFinite(n) ? n : 0; };
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
-const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
-const lsDel = k => { try { localStorage.removeItem(k); } catch (e) {} };
+const lsGet = k => { try { return localStorage.getItem((new URLSearchParams(location.search).has("preview")?"preview_":"")+k); } catch (e) { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem((new URLSearchParams(location.search).has("preview")?"preview_":"")+k, v); } catch (e) {} };
+const lsDel = k => { try { localStorage.removeItem((new URLSearchParams(location.search).has("preview")?"preview_":"")+k); } catch (e) {} };
 const fmtDate = d => { const p = String(d || "").split("-"); return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : (d || "N/A"); };
 const todayLocal = () => { const n = new Date(); return new Date(n - n.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
 
@@ -2242,6 +2239,7 @@ function syncStatus(m, forced) {
   el.className = st; el.textContent = lb;
 }
 function bootCloud() {
+  if (new URLSearchParams(location.search).has("preview")) { $("sync").textContent="Aperçu · sans cloud"; return; }
   if (booting || db) return;
   booting = true; cloudErr = null;
   const have = typeof firebase !== "undefined" && typeof firebase.firestore === "function";
@@ -2253,6 +2251,7 @@ function bootCloud() {
         // Cache hors-ligne : désactivé 7 jours seulement si le démarrage avec cache a bloqué, puis réessayé
         const nc = parseInt(lsGet(KEY.noCache) || "0", 10);
         if (!(nc > 1 && Date.now() - nc < 7 * 864e5)) { persist = true; db.enablePersistence().catch(() => { persist = false; }); }
+        window.dispatchEvent(new Event("epo:dbready"));
         listen();
       } catch (e) { cloudErr = e; db = null; }
     })
@@ -2399,9 +2398,9 @@ function patch(id, changes, okMsg) {
    8. NAVIGATION
    ============================================================ */
 function buildNav() {
-  const labels = {ACCUEIL:"Accueil",INC:"Nouvelle évaluation",SUIVI:"Suivi & résultats",PLANCHE:"Planche",SSUAP:"SSUAP",TRANS:"Transmissions",ENCADREMENT:"Encadrement",REMISE:"Remise",SYNTHESE:"Synthèse globale",C1:"C1"};
-  const icons = {ACCUEIL:"⌂",INC:"＋",SUIVI:"▤"};
-  $("tabs").innerHTML = '<span class="nav-heading">ESPACE DE TRAVAIL</span>' + ["ACCUEIL","INC","SUIVI"].map(t => `<button class="tab" role="tab" data-tab="${t}"><span class="nav-icon" aria-hidden="true">${icons[t]}</span>${labels[t]}</button>`).join("") + '<details class="future-nav"><summary>Autres modules <span>À venir</span></summary>' + TABS.filter(t=>!["ACCUEIL","INC","SUIVI"].includes(t)).map(t=>`<button class="tab" role="tab" data-tab="${t}">${labels[t]}</button>`).join("") + '</details><div class="nav-foot">BOI · 2e GIS<br><span>Évaluation des manœuvres individuelles</span></div>';
+  const labels = {ACCUEIL:"Accueil",INC:"Évaluer · INC MDR",SUIVI:"Suivi · INC MDR",PLANCHE:"Planche",SSUAP:"SSUAP",TRANS:"Transmissions",ENCADREMENT:"Encadrement",REMISE:"Remise",SYNTHESE:"Synthèse globale",C1:"C1"};
+  const icons = {ACCUEIL:"⌂",INC:"＋",SUIVI:"▤",SSUAP:"✚",SYNTHESE:"◫"};
+  $("tabs").innerHTML = '<span class="nav-heading">ESPACE DE TRAVAIL</span>' + ["ACCUEIL","INC","SUIVI","SSUAP","SYNTHESE"].map(t => `<button class="tab" role="tab" data-tab="${t}"><span class="nav-icon" aria-hidden="true">${icons[t]}</span>${labels[t]}</button>`).join("") + '<details class="future-nav"><summary>Autres modules <span>À venir</span></summary>' + TABS.filter(t=>!["ACCUEIL","INC","SUIVI","SSUAP","SYNTHESE"].includes(t)).map(t=>`<button class="tab" role="tab" data-tab="${t}">${labels[t]}</button>`).join("") + '</details><div class="nav-foot">BOI · 2e GIS<br><span>Évaluation des manœuvres individuelles</span></div>';
   $("tabs").addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) showTab(b.dataset.tab); });
   Object.keys(SUBTABS).forEach(p => {
     const box = $("subs-" + p);
@@ -2417,6 +2416,7 @@ function showPage(id) {
   document.querySelectorAll(".page").forEach(p => p.classList.toggle("on", p.id === "p-" + id));
   document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === id)));
   window.scrollTo({ top: 0 });
+  window.dispatchEvent(new Event("epo:page"));
 }
 function showTab(t) {
   // Quitter la grille pendant une modification = l'annuler (avec confirmation) ; une nouvelle évaluation reste en cours
@@ -2962,6 +2962,7 @@ const rowClass = (it, best) => {
 const ptsList = l => (!l || !l.length) ? "<li>—</li>" : l.map(x => `<li>${esc(up(x))}</li>`).join("");
 
 function renderTable() {
+  window.dispatchEvent(new Event("epo:inc-updated"));
   const active = document.activeElement;
   if (active && active.classList && active.classList.contains("cell") && active.closest("#tbody") && window.__rendered) { window.__defer = true; return; }
   window.__rendered = true;
@@ -3410,6 +3411,7 @@ syncStatus();
 restore();
 window.addEventListener("error", e => { const el = $("sync"); if (!window.__ok && el) { el.className = "error"; el.textContent = "Erreur : " + (e.message || "démarrage"); } });
 window.__ok = true;
+if(new URLSearchParams(location.search).has("preview")){const banner=document.createElement("div");banner.className="ss-preview";banner.textContent="APERÇU · Les saisies restent sur cet appareil et ne sont jamais envoyées au serveur.";document.querySelector("main").prepend(banner);}
 bootCloud();
 </script>
 <dialog id="installHelp" style="margin:auto;border:1px solid #e3e9ee;border-radius:16px;padding:24px;max-width:440px;width:calc(100% - 32px);color:#142d42">
@@ -3418,6 +3420,8 @@ bootCloud();
 <p style="line-height:1.7;margin-bottom:14px"><b>iPad · Safari</b><br>Partager → Sur l’écran d’accueil → Ajouter. Activez « Ouvrir comme app web » si cette option est proposée.</p>
 <p style="font-size:12px;line-height:1.7;color:#657789;margin-bottom:18px">Ouvrez d’abord l’application avec Internet. La synchronisation entre appareils nécessite une connexion. Un brouillon commencé dans le navigateur peut ne pas être disponible dans l’application installée.</p>
 <form method="dialog"><button class="btn block">Compris</button></form></dialog>
+<script src="./ssuap.js"></script>
 <script src="./install.js" defer></script>
 </body>
 </html>
+
