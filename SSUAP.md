@@ -7,6 +7,7 @@
 - Renseigner le signalement d’un geste dangereux pour chaque personnel, avec justification obligatoire si oui.
 - Enregistrer une fois pour les trois personnels, puis consulter ou imprimer leur bilan. Un nouvel appui enregistre une modification de la même manœuvre, sans créer de doublon.
 - SSUAP → Suivi : recherche (nom, CS, évaluateur, cas), filtres par dates, centre, fonction, note, vigilance ou synchronisation, tri, modification et exports CSV/JSON.
+- Suppression : « Détails et actions » → « Supprimer la manœuvre ». Une manœuvre regroupe les trois personnels : la suppression les retire tous les trois, pour tous les utilisateurs, après confirmation. Une manœuvre encore en attente d'envoi est retirée de la file locale sans appel au serveur.
 - Synthèse globale : résultats INC MDR et SSUAP, filtres communs, effectifs d’évaluations et de manœuvres, moyennes séparées par domaine, fonction et CS. Les évaluations répétées d’un même personnel comptent séparément ; la moyenne générale compte chaque évaluation individuelle une fois. Les moyennes par catégorie restent affichées.
 
 ## Barème
@@ -26,11 +27,11 @@ Le geste dangereux reste un signalement distinct. Aucune mise à zéro ou inapti
 Les SSUAP utilisent la collection Firestore `evaluations_ssuap`, sans modifier les évaluations INC dans `evaluations` ni leurs migrations de calcul.
 Une manœuvre = un document contenant les trois personnels. Brouillon et file d’attente sont conservés sur l’appareil. L’application n’annonce pas une synchronisation réussie tant que l’écriture serveur n’est pas confirmée.
 Les transactions contrôlent la révision de la manœuvre pour éviter d’écraser une modification concurrente. Un conflit conserve la version locale, permet de l’exporter, puis de recharger la version serveur.
-En cas de refus Firebase, le bandeau l’indique et les saisies restent dans la file locale. Vérifier les règles existantes pour cette nouvelle collection ; ne pas ouvrir toute la base pour contourner un refus. Aucun changement de règle Firebase n’est inclus.
+En cas de refus Firebase, le bandeau l’indique et les saisies restent dans la file locale. Vérifier les règles existantes pour cette nouvelle collection ; ne pas ouvrir toute la base pour contourner un refus. Règle Firestore `evaluations_ssuap` : lecture et suppression ouvertes comme pour `evaluations` ; création et modification limitées aux documents `schemaVersion == 1` à trois personnels.
 
 ## Mise à jour
 
-Version du service worker : `epo-tablettes-v4-personnels`. Les fichiers SSUAP sont mis en cache avec l’interface. Enregistrer les évaluations, fermer toutes les fenêtres et l’application EPO, puis rouvrir pour activer une mise à jour en attente.
+Version du service worker : `epo-tablettes-v5-suppression-ssuap`. Les fichiers SSUAP sont mis en cache avec l’interface. Enregistrer les évaluations, fermer toutes les fenêtres et l’application EPO, puis rouvrir pour activer une mise à jour en attente.
 L’URL `?preview=1` fournit un aperçu isolé : aucune connexion Firebase, données locales de démonstration uniquement.
 
 ## Tests
