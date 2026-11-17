@@ -1,4 +1,4 @@
-const VERSION='epo-tablettes-v5-suppression-ssuap';
+const VERSION='epo-tablettes-v6-equipage-2-3';
 const CACHE=VERSION+'-'+self.registration.scope;
 const SHELL=['./','./index.html','./manifest.webmanifest','./install.js','./ssuap.js','./ssuap.css','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 const LIBS=[

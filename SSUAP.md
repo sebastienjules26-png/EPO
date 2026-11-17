@@ -2,12 +2,12 @@
 
 ## Utilisation
 
-- SSUAP → Évaluation : date et CS repris de l’accueil, puis évaluateur, cas concret, un chef d’agrès et deux équipiers. Grade et nom, ancienneté générale, indicateur moins d’un an et ancienneté CA suivent le format INC. Aucun champ matricule. Une modification conserve la session de l’évaluation enregistrée.
-- Passer d’un personnel à l’autre avec les trois boutons. Chaque capacité se note en un appui ; les observations se déplient si nécessaire.
+- SSUAP → Évaluation : date et CS repris de l’accueil, puis évaluateur, cas concret et composition de l’équipage : chef d’agrès + 1 équipier, ou chef d’agrès + 2 équipiers (par défaut). Passer à un seul équipier retire l’équipier 2, après confirmation s’il était déjà renseigné. Grade et nom, ancienneté générale, indicateur moins d’un an et ancienneté CA suivent le format INC. Aucun champ matricule. Une modification conserve la session de l’évaluation enregistrée.
+- Passer d’un personnel à l’autre avec les boutons de l’équipage. Chaque capacité se note en un appui ; les observations se déplient si nécessaire.
 - Renseigner le signalement d’un geste dangereux pour chaque personnel, avec justification obligatoire si oui.
-- Enregistrer une fois pour les trois personnels, puis consulter ou imprimer leur bilan. Un nouvel appui enregistre une modification de la même manœuvre, sans créer de doublon.
+- Enregistrer une fois pour tout l’équipage, puis consulter ou imprimer le bilan. Un nouvel appui enregistre une modification de la même manœuvre, sans créer de doublon.
 - SSUAP → Suivi : recherche (nom, CS, évaluateur, cas), filtres par dates, centre, fonction, note, vigilance ou synchronisation, tri, modification et exports CSV/JSON.
-- Suppression : « Détails et actions » → « Supprimer la manœuvre ». Une manœuvre regroupe les trois personnels : la suppression les retire tous les trois, pour tous les utilisateurs, après confirmation. Une manœuvre encore en attente d'envoi est retirée de la file locale sans appel au serveur.
+- Suppression : « Détails et actions » → « Supprimer la manœuvre ». Une manœuvre regroupe tout l’équipage : la suppression retire tous ses personnels, pour tous les utilisateurs, après confirmation. Une manœuvre encore en attente d'envoi est retirée de la file locale sans appel au serveur.
 - Synthèse globale : résultats INC MDR et SSUAP, filtres communs, effectifs d’évaluations et de manœuvres, moyennes séparées par domaine, fonction et CS. Les évaluations répétées d’un même personnel comptent séparément ; la moyenne générale compte chaque évaluation individuelle une fois. Les moyennes par catégorie restent affichées.
 
 ## Barème
@@ -25,19 +25,19 @@ Le geste dangereux reste un signalement distinct. Aucune mise à zéro ou inapti
 ## Stockage et synchronisation
 
 Les SSUAP utilisent la collection Firestore `evaluations_ssuap`, sans modifier les évaluations INC dans `evaluations` ni leurs migrations de calcul.
-Une manœuvre = un document contenant les trois personnels. Brouillon et file d’attente sont conservés sur l’appareil. L’application n’annonce pas une synchronisation réussie tant que l’écriture serveur n’est pas confirmée.
+Une manœuvre = un document contenant l’équipage évalué (2 ou 3 personnels). Brouillon et file d’attente sont conservés sur l’appareil. L’application n’annonce pas une synchronisation réussie tant que l’écriture serveur n’est pas confirmée.
 Les transactions contrôlent la révision de la manœuvre pour éviter d’écraser une modification concurrente. Un conflit conserve la version locale, permet de l’exporter, puis de recharger la version serveur.
-En cas de refus Firebase, le bandeau l’indique et les saisies restent dans la file locale. Vérifier les règles existantes pour cette nouvelle collection ; ne pas ouvrir toute la base pour contourner un refus. Règle Firestore `evaluations_ssuap` : lecture et suppression ouvertes comme pour `evaluations` ; création et modification limitées aux documents `schemaVersion == 1` à trois personnels.
+En cas de refus Firebase, le bandeau l’indique et les saisies restent dans la file locale. Vérifier les règles existantes pour cette nouvelle collection ; ne pas ouvrir toute la base pour contourner un refus. Règle Firestore `evaluations_ssuap` : lecture et suppression ouvertes comme pour `evaluations` ; création et modification limitées aux documents `schemaVersion == 1` à 2 ou 3 personnels.
 
 ## Mise à jour
 
-Version du service worker : `epo-tablettes-v5-suppression-ssuap`. Les fichiers SSUAP sont mis en cache avec l’interface. Enregistrer les évaluations, fermer toutes les fenêtres et l’application EPO, puis rouvrir pour activer une mise à jour en attente.
+Version du service worker : `epo-tablettes-v6-equipage-2-3`. Les fichiers SSUAP sont mis en cache avec l’interface. Enregistrer les évaluations, fermer toutes les fenêtres et l’application EPO, puis rouvrir pour activer une mise à jour en attente.
 L’URL `?preview=1` fournit un aperçu isolé : aucune connexion Firebase, données locales de démonstration uniquement.
 
 ## Tests
 
 `npm install` puis `npm test` (jsdom, sans connexion à Firebase).
-Couverture : 10/8/8 capacités, barème, seuils, notes manquantes, justification obligatoire, navigation, sauvegarde et reprise, bilan des trois personnels, filtres et synthèse, sécurité CSV, transactions simulées, erreurs de permission, idempotence, conflits et modifications pendant un envoi.
+Couverture : équipage de 2 ou 3 personnels, 10/8/8 capacités, barème, seuils, notes manquantes, justification obligatoire, navigation, sauvegarde et reprise, bilan des trois personnels, filtres et synthèse, sécurité CSV, transactions simulées, erreurs de permission, idempotence, conflits et modifications pendant un envoi.
 La synchronisation Firebase réelle et l’installation Android ne sont pas prouvées par ces tests. Aucune évaluation de test n’a été créée dans la base réelle.
 
 ## Navigation et fiche personnel

@@ -1,0 +1,27 @@
+const fs=require('fs'),path=require('path'),assert=require('assert'),{JSDOM,VirtualConsole}=require('jsdom');
+const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8'),src=fs.readFileSync(path.join(__dirname,'..','ssuap.js'),'utf8');
+const errors=[],v=new VirtualConsole();v.on('jsdomError',e=>{if(!e.message.includes('navigation'))errors.push(e.message)});
+let answer=true;
+const dom=new JSDOM(html,{url:'https://example.test/EPO/?preview=1',runScripts:'dangerously',virtualConsole:v,beforeParse(w){w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=()=>{};w.confirm=()=>answer;w.URL.createObjectURL=()=>'blob:t';w.URL.revokeObjectURL=()=>{};}});
+const w=dom.window,d=w.document;w.eval(src);
+const input=(sel,val)=>{const el=d.querySelector(sel);assert(el,sel);if(el.type==='radio')el.checked=true;else el.value=val;el.dispatchEvent(new w.Event('input',{bubbles:true}));};
+const size=n=>{const el=d.querySelector(`[name="ss-size"][value="${n}"]`);el.checked=true;el.dispatchEvent(new w.Event('change',{bubbles:true}));};
+const draft=()=>JSON.parse(w.localStorage.getItem('epo_preview_ssuap_draft'));
+d.querySelector('[data-tab="SSUAP"]').click();
+assert(d.querySelector('[name="ss-size"][value="3"]').checked,'3 par défaut');
+assert.equal(d.querySelectorAll('[data-person-tab]').length,3);
+size(2);assert.equal(d.querySelectorAll('[data-person-tab]').length,2);assert.equal(draft().people.length,2);assert(d.getElementById('ss-crew').classList.contains('duo'));
+assert.match(d.getElementById('ss-progress-label').textContent,/^0\/18 /);
+size(3);assert.equal(draft().people.length,3);assert.equal(draft().people[2].role,'E2');
+input('[data-index="2"][data-identity="name"]','SAP GARDE');answer=false;size(2);assert.equal(draft().people.length,3,'annulation conserve EQ2');assert(d.querySelector('[name="ss-size"][value="3"]').checked);
+answer=true;size(2);assert.equal(draft().people.length,2);
+input('#sCS','TEST');input('#ss-evaluator','SGT TEST');input('#ss-scenario','Malaise');
+for(let i=0;i<2;i++){input(`[data-index="${i}"][data-identity="name"]`,'TEST '+i);d.querySelector(`[data-person-tab="${i}"]`).click();for(const el of d.querySelectorAll('[data-rating][value="2"]')){el.checked=true;el.dispatchEvent(new w.Event('input',{bubbles:true}));}input('[name="ss-danger"][value="no"]','');}
+assert.match(d.getElementById('ss-save').textContent,/2 évaluations/);
+d.getElementById('ss-next').click();
+d.getElementById('ss-form').dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));
+const q=JSON.parse(w.localStorage.getItem('epo_preview_ssuap_queue'));const recs=Object.values(q).map(x=>x.record);
+assert.equal(recs.length,1,'enregistré : '+d.getElementById('ss-validation').textContent);assert.equal(recs[0].people.length,2);assert.deepEqual(recs[0].people.map(p=>p.role),['CA','E1']);
+assert.match(d.getElementById('ss-receipt').textContent,/Les 2 évaluations/);
+assert.equal(w.EPO_SSUAP.rowsSS().length,2);
+assert.deepEqual(errors,[]);console.log('PASS crew 2/3: default 3, switch, confirm on data loss, 18 capacités, save 2-person record, rows');
